@@ -20,14 +20,16 @@ operations
 end
 
 class ConcreteObserver < IObserver
+operations
+    update()
 end
 
-association observersList between
-    Subject[1] role observers
-    IObserver[0..*]
+composition observersList between
+    IObserver[0..*] role observers
+    Subject[1] 
 end
 
-association subject between
-    ConcreteObserver[1] role subj
-    ConcreteSubject[0..*]
+composition subject between
+    ConcreteSubject[0..*] role subjectList
+    ConcreteObserver[1]
 end
