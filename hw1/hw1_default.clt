@@ -3,25 +3,25 @@
     <diagramOptions>
         <autolayout>false</autolayout>
         <antialiasing>false</antialiasing>
-        <showassocnames>false</showassocnames>
+        <showassocnames>true</showassocnames>
         <showattributes>true</showattributes>
         <showmultiplicities>true</showmultiplicities>
         <showoperations>true</showoperations>
-        <showrolenames>true</showrolenames>
+        <showrolenames>false</showrolenames>
         <showgrid>false</showgrid>
     </diagramOptions>
     <node id="ConcreteSubject" sizeCalculated="true" type="Class">
         <name>ConcreteSubject</name>
         <strategy type="org.tzi.use.gui.views.diagrams.elements.positioning.StrategyFixed">
-            <x>972.8019232363481</x>
-            <y>449.9919238973393</y>
+            <x>952.8019232363481</x>
+            <y>451.9919238973393</y>
         </strategy>
         <hidden>false</hidden>
     </node>
     <node id="IObserver" sizeCalculated="true" type="Class">
         <name>IObserver</name>
         <strategy type="org.tzi.use.gui.views.diagrams.elements.positioning.StrategyFixed">
-            <x>676.1980767636519</x>
+            <x>672.1980767636519</x>
             <y>284.0080761026607</y>
         </strategy>
         <hidden>false</hidden>
@@ -29,8 +29,8 @@
     <node id="ConcreteObserver" sizeCalculated="true" type="Class">
         <name>ConcreteObserver</name>
         <strategy type="org.tzi.use.gui.views.diagrams.elements.positioning.StrategyFixed">
-            <x>656.6406620664002</x>
-            <y>452.96315872156276</y>
+            <x>651.6406620664002</x>
+            <y>467.96315872156276</y>
         </strategy>
         <hidden>false</hidden>
     </node>
@@ -38,21 +38,21 @@
         <name>Subject</name>
         <strategy type="org.tzi.use.gui.views.diagrams.elements.positioning.StrategyFixed">
             <x>943.3593379335998</x>
-            <y>264.03684127843724</y>
+            <y>267.03684127843724</y>
         </strategy>
         <hidden>false</hidden>
     </node>
     <edge type="BinaryEdge">
-        <source>ConcreteObserver</source>
-        <target>ConcreteSubject</target>
+        <source>ConcreteSubject</source>
+        <target>ConcreteObserver</target>
         <name>subject</name>
         <properties>
             <edgeproperty id="subject::AssociationName"
                 sizeCalculated="true" type="associationName"
-                userDefined="false" visible="true">
+                userDefined="true" visible="true">
                 <name>subject</name>
                 <strategy type="org.tzi.use.gui.views.diagrams.elements.positioning.StrategyInBetween">
-                    <userOffsetX>0.0</userOffsetX>
+                    <userOffsetX>76.0</userOffsetX>
                     <userOffsetY>0.0</userOffsetY>
                     <offsetX>0.0</offsetX>
                     <offsetY>-10.0</offsetY>
@@ -63,10 +63,23 @@
                 </strategy>
                 <hidden>false</hidden>
             </edgeproperty>
+            <edgeproperty id="subject::source::rolename"
+                sizeCalculated="true" type="rolename" userDefined="true" visible="true">
+                <name>savedSub</name>
+                <strategy type="org.tzi.use.gui.views.diagrams.elements.positioning.StrategyRelativeToAttached">
+                    <userOffsetX>5.0</userOffsetX>
+                    <userOffsetY>-15.0</userOffsetY>
+                    <attached>subject::WayPoint::0</attached>
+                    <offset_x>8</offset_x>
+                    <offset_y>8</offset_y>
+                    <placement>TOP</placement>
+                </strategy>
+                <hidden>false</hidden>
+            </edgeproperty>
             <edgeproperty id="subject::source::multiplicity"
                 sizeCalculated="true" type="multiplicity"
                 userDefined="true" visible="true">
-                <name>1</name>
+                <name>0..1</name>
                 <strategy type="org.tzi.use.gui.views.diagrams.elements.positioning.StrategyRelativeToAttached">
                     <userOffsetX>2.0</userOffsetX>
                     <userOffsetY>18.0</userOffsetY>
@@ -74,32 +87,6 @@
                     <offset_x>8</offset_x>
                     <offset_y>8</offset_y>
                     <placement>BOTTOM</placement>
-                </strategy>
-                <hidden>false</hidden>
-            </edgeproperty>
-            <edgeproperty id="subject::source::rolename"
-                sizeCalculated="true" type="rolename" userDefined="true" visible="true">
-                <name>concreteObserver</name>
-                <strategy type="org.tzi.use.gui.views.diagrams.elements.positioning.StrategyRelativeToAttached">
-                    <userOffsetX>13.0</userOffsetX>
-                    <userOffsetY>5.0</userOffsetY>
-                    <attached>subject::WayPoint::0</attached>
-                    <offset_x>8</offset_x>
-                    <offset_y>8</offset_y>
-                    <placement>TOP</placement>
-                </strategy>
-                <hidden>false</hidden>
-            </edgeproperty>
-            <edgeproperty id="subject::target::rolename"
-                sizeCalculated="true" type="rolename" userDefined="true" visible="true">
-                <name>subjectList</name>
-                <strategy type="org.tzi.use.gui.views.diagrams.elements.positioning.StrategyRelativeToAttached">
-                    <userOffsetX>7.0</userOffsetX>
-                    <userOffsetY>21.0</userOffsetY>
-                    <attached>subject::WayPoint::1</attached>
-                    <offset_x>8</offset_x>
-                    <offset_y>8</offset_y>
-                    <placement>TOP</placement>
                 </strategy>
                 <hidden>false</hidden>
             </edgeproperty>
@@ -114,6 +101,19 @@
                     <offset_x>8</offset_x>
                     <offset_y>8</offset_y>
                     <placement>BOTTOM</placement>
+                </strategy>
+                <hidden>false</hidden>
+            </edgeproperty>
+            <edgeproperty id="subject::target::rolename"
+                sizeCalculated="true" type="rolename" userDefined="true" visible="true">
+                <name>concreteObserver</name>
+                <strategy type="org.tzi.use.gui.views.diagrams.elements.positioning.StrategyRelativeToAttached">
+                    <userOffsetX>-82.0</userOffsetX>
+                    <userOffsetY>53.0</userOffsetY>
+                    <attached>subject::WayPoint::1</attached>
+                    <offset_x>8</offset_x>
+                    <offset_y>8</offset_y>
+                    <placement>TOP</placement>
                 </strategy>
                 <hidden>false</hidden>
             </edgeproperty>
@@ -147,17 +147,17 @@
         <hidden>false</hidden>
     </edge>
     <edge type="BinaryEdge">
-        <source>Subject</source>
-        <target>IObserver</target>
+        <source>IObserver</source>
+        <target>Subject</target>
         <name>observersList</name>
         <properties>
             <edgeproperty id="observersList::AssociationName"
                 sizeCalculated="true" type="associationName"
-                userDefined="false" visible="true">
+                userDefined="true" visible="true">
                 <name>observersList</name>
                 <strategy type="org.tzi.use.gui.views.diagrams.elements.positioning.StrategyInBetween">
-                    <userOffsetX>0.0</userOffsetX>
-                    <userOffsetY>0.0</userOffsetY>
+                    <userOffsetX>-65.0</userOffsetX>
+                    <userOffsetY>27.0</userOffsetY>
                     <offsetX>0.0</offsetX>
                     <offsetY>-10.0</offsetY>
                     <related length="2">
@@ -167,12 +167,26 @@
                 </strategy>
                 <hidden>false</hidden>
             </edgeproperty>
+            <edgeproperty id="observersList::source::multiplicity"
+                sizeCalculated="true" type="multiplicity"
+                userDefined="true" visible="true">
+                <name>*</name>
+                <strategy type="org.tzi.use.gui.views.diagrams.elements.positioning.StrategyRelativeToAttached">
+                    <userOffsetX>2.0</userOffsetX>
+                    <userOffsetY>-11.0</userOffsetY>
+                    <attached>observersList::WayPoint::0</attached>
+                    <offset_x>8</offset_x>
+                    <offset_y>8</offset_y>
+                    <placement>BOTTOM</placement>
+                </strategy>
+                <hidden>false</hidden>
+            </edgeproperty>
             <edgeproperty id="observersList::source::rolename"
                 sizeCalculated="true" type="rolename" userDefined="true" visible="true">
-                <name>subject</name>
+                <name>observers</name>
                 <strategy type="org.tzi.use.gui.views.diagrams.elements.positioning.StrategyRelativeToAttached">
                     <userOffsetX>-1.0</userOffsetX>
-                    <userOffsetY>8.0</userOffsetY>
+                    <userOffsetY>14.0</userOffsetY>
                     <attached>observersList::WayPoint::0</attached>
                     <offset_x>8</offset_x>
                     <offset_y>8</offset_y>
@@ -180,37 +194,9 @@
                 </strategy>
                 <hidden>false</hidden>
             </edgeproperty>
-            <edgeproperty id="observersList::source::multiplicity"
-                sizeCalculated="true" type="multiplicity"
-                userDefined="false" visible="true">
-                <name>1</name>
-                <strategy type="org.tzi.use.gui.views.diagrams.elements.positioning.StrategyRelativeToAttached">
-                    <userOffsetX>0.0</userOffsetX>
-                    <userOffsetY>0.0</userOffsetY>
-                    <attached>observersList::WayPoint::0</attached>
-                    <offset_x>8</offset_x>
-                    <offset_y>8</offset_y>
-                    <placement>BOTTOM</placement>
-                </strategy>
-                <hidden>false</hidden>
-            </edgeproperty>
-            <edgeproperty id="observersList::target::multiplicity"
-                sizeCalculated="true" type="multiplicity"
-                userDefined="true" visible="true">
-                <name>*</name>
-                <strategy type="org.tzi.use.gui.views.diagrams.elements.positioning.StrategyRelativeToAttached">
-                    <userOffsetX>10.0</userOffsetX>
-                    <userOffsetY>-6.0</userOffsetY>
-                    <attached>observersList::WayPoint::1</attached>
-                    <offset_x>8</offset_x>
-                    <offset_y>8</offset_y>
-                    <placement>BOTTOM</placement>
-                </strategy>
-                <hidden>false</hidden>
-            </edgeproperty>
             <edgeproperty id="observersList::target::rolename"
                 sizeCalculated="true" type="rolename" userDefined="true" visible="true">
-                <name>observers</name>
+                <name>subject</name>
                 <strategy type="org.tzi.use.gui.views.diagrams.elements.positioning.StrategyRelativeToAttached">
                     <userOffsetX>1.0</userOffsetX>
                     <userOffsetY>14.0</userOffsetY>
@@ -218,6 +204,20 @@
                     <offset_x>8</offset_x>
                     <offset_y>8</offset_y>
                     <placement>TOP</placement>
+                </strategy>
+                <hidden>false</hidden>
+            </edgeproperty>
+            <edgeproperty id="observersList::target::multiplicity"
+                sizeCalculated="true" type="multiplicity"
+                userDefined="true" visible="true">
+                <name>0..1</name>
+                <strategy type="org.tzi.use.gui.views.diagrams.elements.positioning.StrategyRelativeToAttached">
+                    <userOffsetX>10.0</userOffsetX>
+                    <userOffsetY>-6.0</userOffsetY>
+                    <attached>observersList::WayPoint::1</attached>
+                    <offset_x>8</offset_x>
+                    <offset_y>8</offset_y>
+                    <placement>BOTTOM</placement>
                 </strategy>
                 <hidden>false</hidden>
             </edgeproperty>
