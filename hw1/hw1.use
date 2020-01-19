@@ -1,0 +1,33 @@
+model ObserverPattern
+
+class IObserver
+operations
+    update()
+end
+
+abstract class Subject
+operations
+    attach(g : IObserver)
+    detach(g : IObserver)
+    notifyObservers()
+end
+    
+class ConcreteSubject < Subject
+operations
+    update()
+        begin
+        end
+end
+
+class ConcreteObserver < IObserver
+end
+
+association observersList between
+    Subject[1] role observers
+    IObserver[0..*]
+end
+
+association subject between
+    ConcreteObserver[1] role subj
+    ConcreteSubject[0..*]
+end
