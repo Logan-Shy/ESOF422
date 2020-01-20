@@ -3,25 +3,53 @@ model ObserverPattern
 class IObserver
 operations
     update()
+        begin
+        end
 end
 
 abstract class Subject
 operations
     attach(g : IObserver)
+        begin
+            insert (g, self) into observersList
+        end
+
     detach(g : IObserver)
-    notifyObservers()
+        begin
+            delete (g, self) from observersList
+        end
+
+    notify()
+        begin
+            for o in self.observers do
+                o.update();
+            end
+        end
 end
     
 class ConcreteSubject < Subject
+attributes
+    state:String
 operations
-    update()
+    getState(): String
         begin
+            result := self.state
+        end
+
+    setState(newState : String)
+        begin
+            self.state := newState;
         end
 end
 
 class ConcreteObserver < IObserver
+attributes
+    state:String
 operations
     update()
+        begin
+            self.state := self.savedSub.getState();
+        end
 end
 
 composition observersList between
@@ -29,7 +57,7 @@ composition observersList between
     Subject[1] 
 end
 
-composition subject between
-    ConcreteSubject[0..*] role subjectList
+association subject between
+    ConcreteSubject[0..1] role savedSub
     ConcreteObserver[1]
 end
