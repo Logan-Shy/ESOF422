@@ -1,6 +1,11 @@
+
+
+-- This file describes the class structure for an Observer design pattern.
+-- The authors are Logan Shy, and Shelby Huston.
+
 model ObserverPattern
 
-class IObserver
+abstract class IObserver
 operations
     update()
         begin
@@ -16,7 +21,7 @@ operations
 
     detach(g : IObserver)
         begin
-            delete (g, self) from observersList
+            destroy g
         end
 
     notify()

@@ -16,4 +16,9 @@
 !s1.setState('New State')
 !s1.notify()
 
+!s2.setState('New State 2')
+!s2.notify()
+
+!s1.detach(o1)
+
 
