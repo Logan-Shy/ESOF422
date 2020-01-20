@@ -5,22 +5,18 @@ operations
     update()
         begin
         end
-    addSub(sub : Subject)
-        begin
-        end
 end
 
 abstract class Subject
 operations
-    attach(o : IObserver)
+    attach(g : IObserver)
         begin
-            insert (o, self) into observersList;
-            o.addSub(self);
+            insert (g, self) into observersList
         end
 
-    detach(o : ConcreteObserver)
+    detach(g : IObserver)
         begin
-            destroy o;
+            delete (g, self) from observersList
         end
 
     notify()
@@ -29,18 +25,15 @@ operations
                 o.update();
             end
         end
-    getState()
-        begin
-        end
 end
     
 class ConcreteSubject < Subject
 attributes
     state:String
 operations
-    getState() : String
+    getState(): String
         begin
-            result := self.state;
+            result := self.state
         end
 
     setState(newState : String)
@@ -58,17 +51,14 @@ operations
         begin
             self.state := self.savedSub.getState();
         end
-    addSub(sub : Subject)
-        begin
-            insert (sub, self) into subject
-        end
 end
 
 composition observersList between
     IObserver[0..*] role observers
     Subject[0..1] 
 end
+
 association subject between
-    Subject[0..1] role savedSub
-    ConcreteObserver[0..*]
+    ConcreteSubject[0..1] role savedSub
+    ConcreteObserver[1]
 end
