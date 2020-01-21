@@ -5,14 +5,11 @@
 
 model ObserverPattern
 
-abstract class IObserver
-operations
-    update()
-        begin
-        end
-end
-
 abstract class Subject
+attributes
+    state: String init : 'Old State'
+    --observersList; this is defined in the associations 
+
 operations
     attach(g : IObserver)
         begin
@@ -21,7 +18,7 @@ operations
 
     detach(g : IObserver)
         begin
-            destroy g
+            delete (g, self) from observersList
         end
 
     notify()
@@ -30,12 +27,7 @@ operations
                 o.update();
             end
         end
-end
-    
-class ConcreteSubject < Subject
-attributes
-    state:String
-operations
+
     getState(): String
         begin
             result := self.state
@@ -45,25 +37,32 @@ operations
         begin
             self.state := newState;
         end
+end
+    
+class ConcreteSubject < Subject
+attributes
+operations
+end
 
+abstract class IObserver
+attributes
+    state : String init : 'Old State'
+operations
+    update()
+        begin
+        end
 end
 
 class ConcreteObserver < IObserver
 attributes
-    state:String
 operations
     update()
         begin
-            self.state := self.savedSub.getState();
+            self.state := self.subject.getState();
         end
 end
 
 composition observersList between
     IObserver[0..*] role observers
-    Subject[0..1] 
-end
-
-association subject between
-    ConcreteSubject[0..1] role savedSub
-    ConcreteObserver[1]
+    Subject[1] role subject
 end
