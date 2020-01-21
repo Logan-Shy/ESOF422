@@ -40,8 +40,8 @@ operations
 end
     
 class ConcreteSubject < Subject
-attributes
-operations
+-- inherits all functionality of Subject class,
+-- and provides none of its own.
 end
 
 abstract class IObserver
