@@ -9,10 +9,11 @@
 !insert (o3,s2) into observersList
 
 !s1.setState('New State')
-!s1.notify()
 
 !s2.setState('New State 2')
-!s2.notify()
+
+!s1.detach(o1)
+!s2.attach(o1)
 
 
 

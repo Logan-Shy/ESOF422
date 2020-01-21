@@ -13,7 +13,15 @@ attributes
 operations
     attach(g : IObserver)
         begin
-            insert (g, self) into observersList
+            insert (g, self) into observersList;
+            self.forceUpdate(g, self.state);
+        end
+
+    forceUpdate(g : IObserver, currentState : String)
+        begin
+            if g.state <> currentState then
+                g.update();
+            end
         end
 
     detach(g : IObserver)
@@ -30,12 +38,13 @@ operations
 
     getState(): String
         begin
-            result := self.state
+            result := self.state;
         end
 
     setState(newState : String)
         begin
             self.state := newState;
+            self.notify()
         end
 end
     
