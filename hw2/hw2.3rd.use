@@ -1,0 +1,48 @@
+--hw 2 use pattern
+
+model HWdiagram
+
+class Person
+attributes
+	name: String
+	age: Integer
+	salary: Real
+operations
+	raiseSalary(rate: Real):Real
+end
+
+class Company
+attributes
+	name:String
+	location:String
+operations
+	hire(p:Person)
+		begin
+			insert(p,self) into worksFor
+		end
+	fire(p:Person)
+		begin
+			delete(p,self) from worksFor
+		end
+end
+
+association worksFor between
+	Person[0..*] role employee
+	Company[0..1] role employer
+end
+
+constraints
+
+context Company::hire(p:Person)
+	pre: employee->excludes(p)
+	post: employee->includes(p)
+
+
+context Company::fire(p:Person)
+	pre: employee->includes(p)
+	post: employee->excludes(p)
+
+
+
+context Person::raiseSalary(rate:Real):Real
+	post: salary > salary@pre
