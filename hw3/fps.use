@@ -1,0 +1,194 @@
+model FPS
+
+abstract class FpsState
+operations
+    seeOpponent(e:FpsPlayer)
+        begin
+        end
+    
+    lostOpponent()
+        begin
+        end
+
+    receiveBlow(i:Integer)
+        begin
+        end
+
+class Attack < FpsState
+operations
+    seeOpponent(e:FpsPlayer)
+        begin
+            writeLine('Already have seen an enemy, who looks defeatable');
+        end
+
+    lostOpponent()
+        begin
+            writeLine('Darn! Your opponent ran away!');
+            self.FpsPlayer.fpsState := self.FpsPlayer.neutralState;
+
+        end
+    
+    receiveBlow(i:Integer)
+        begin
+            writeLine('Ouch! You took some damage');
+            if self.FpsPlayer.health <= 0 then
+                self.FpsPlayer.fpsState := self.FpsPlayer.dieState;
+                writeLine('...And you also died. Sorry.');
+            endif
+        end
+
+class Neutral < FpsState
+operations
+    seeOpponent(e:FpsPlayer)
+        begin
+            if self.FpsPlayer.isDefeatable(e) then
+                writeLine('See an opponent that looks defeatable!');
+                self.FpsPlayer.fpsState := self.FpsPlayer.attackState;
+            else
+                writeLine('See an opponent that looks undefeatable! Sorry.');
+                self.FpsPlayer.fpsState := self.FpsPlayer.panicState;
+            endif
+
+            self.FpsPlayer.engagedPlayer := e; -- put each other into 
+            e.engagedPlayer := self.FpsPlayer; -- engagedPlayer var
+        end
+
+    lostOpponent()
+        begin
+            writeLine('You don't have an opponent to lose!');
+        end
+
+    receiveBlow(i:Integer)
+        begin
+            writeLine('There isn't a nearby enemy to receive a blow from!');
+        end
+
+class Panic < FpsState
+operations
+    seeOpponent(e:FpsPlayer)
+        begin
+            writeLine('Already have seen an enemy, who looks undefeatable');
+        end
+    
+    lostOpponent()
+        begin
+            writeLine('You have escaped the undefeatable enemy');
+            self.FpsPlayer.fpsState := self.FpsPlayer.neutralState;
+        end
+    
+    receiveBlow(i:Integer)
+        begin
+            writeLine('Ouch! You took some damage');
+            self.FpsPlayer.health := self.FpsPlayer.health - i;
+            if self.FpsPlayer.health <= 0 then
+                self.FpsPlayer.fpsState := self.FpsPlayer.dieState;
+                writeLine('...And you also died. Sorry.');
+            endif
+        end
+
+class Die < FpsState
+operations
+    seeOpponent(e:FpsPlayer)
+        begin
+            writeLine('Sorry, you have died!');
+        end
+
+    lostOpponent()
+        begin
+            writeLine('Sorry, you have died!');
+        end
+    
+    receiveBlow(i:Integer)
+        begin
+            writeLine('Sory, you have died! And now they're desecrating you!');
+        end
+
+
+
+abstract class FpsPlayer
+attributes
+    health : Integer
+    attackDmg : Integer
+    engagedPlayer : FpsPlayer --if not engaged with enemy, player will be itself
+    fpsState : FpsState
+    attackState : FpsState
+    neutralState : FpsState
+    panicState : FpsState
+    dieState : FpsState
+
+operations
+    initInstance()
+        begin
+        end    
+
+    attackOpponent(e:FpsPlayer)
+        begin
+            e.receiveBlow(attackDmg);
+        end
+        pre isEngaged: self.engagedPlayer = e
+        pre noSelfHarm: self.engagedPlayer <> self
+
+    flee()
+        begin
+            self.engagedPlayer.lostOpponent();
+            self.engagedPlayer := self.FpsPlayer;
+            writeLine('Success! you have fleed your opponent. Coward.');
+        end
+
+    seeOpponent(e:FpsPlayer)
+        begin
+            self.fpsState.seeOpponent(e);
+        end
+
+    lostOpponent()
+        begin
+            self.fpsState.lostOpponent();
+        end
+    
+    receiveBlow(i:Integer)
+        begin
+            self.fpsState.receiveBlow(i);
+        end
+
+class HumanPlayer < FpsPlayer
+operations
+    initInstance()
+        begin
+            self.health := 100;
+            self.attackDmg := 25;
+            self.engagedPlayer := self;
+            self.attackState := new Attack;
+            self.neutralState := new Neutral;
+            self.panicState := new Panic;
+            self.dieState := new Die;
+            self.fpsState := self.neutralState; -- Start in a neutral state
+        end
+
+class Defeatable < FpsPlayer
+operations
+    initInstance()
+        begin
+            self.health := 20;
+            self.attackDmg := 10;
+            self.engagedPlayer := self;
+            self.attackState := new Attack;
+            self.neutralState := new Neutral;
+            self.panicState := new Panic;
+            self.dieState := new Die;
+            self.fpsState := self.neutralState; -- Start in a neutral state
+        end
+
+class Undefeatable < FpsPlayer
+operations
+    initInstance()
+        begin
+            self.health := 200;
+            self.attackDmg := 50;
+            self.engagedPlayer := self;
+            self.attackState := new Attack;
+            self.neutralState := new Neutral;
+            self.panicState := new Panic;
+            self.dieState := new Die;
+            self.fpsState := self.neutralState; -- Start in a neutral state
+        end
+
