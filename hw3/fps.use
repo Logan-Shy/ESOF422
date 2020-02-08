@@ -1,7 +1,14 @@
 model FPS
 
 abstract class FpsState
+attributes
+    fpsPlayer:FpsPlayer
 operations
+    initInstance(e:FpsPlayer)
+        begin
+            self.fpsPlayer := e;
+        end
+
     seeOpponent(e:FpsPlayer)
         begin
         end
@@ -26,14 +33,19 @@ operations
         begin
             WriteLine('Darn! Your opponent ran away!');
             self.fpsPlayer.fpsState := self.fpsPlayer.neutralState;
+            self.fpsPlayer.engagedPlayer := self.fpsPlayer;
 
         end
     
     receiveBlow(i:Integer)
         begin
-            WriteLine('Ouch! You took some damage');
+            WriteLine('You took a bit of damage');
+            self.fpsPlayer.health := self.fpsPlayer.health - i;
             if self.fpsPlayer.health <= 0 then
-                self.fpsPlayer.fpsState := self.fpsPlayer.dieState
+                begin
+                self.fpsPlayer.fpsState := self.fpsPlayer.dieState;
+                WriteLine('...And you also died. Sorry!');
+                end
             end;
         end
 end
@@ -43,13 +55,17 @@ operations
     seeOpponent(e:FpsPlayer)
         begin
             if e.oclIsTypeOf(Defeatable) then
-                self.fpsPlayer.fpsState := self.fpsPlayer.attackState
+                self.fpsPlayer.fpsState := self.fpsPlayer.attackState;
             else
-                self.fpsPlayer.fpsState := self.fpsPlayer.panicState
+                self.fpsPlayer.fpsState := self.fpsPlayer.panicState;
             end;
 
             self.fpsPlayer.engagedPlayer := e;
-            e.engagedPlayer := self.fpsPlayer; 
+            
+            if e.engagedPlayer <> self.fpsPlayer then
+                e.seeOpponent(self.fpsPlayer)
+            end;
+
         end
 
     lostOpponent()
@@ -73,15 +89,20 @@ operations
     lostOpponent()
         begin
             WriteLine('You have escaped the undefeatable enemy');
+            self.fpsPlayer.engagedPlayer.lostOpponent();
             self.fpsPlayer.fpsState := self.fpsPlayer.neutralState;
+            self.fpsPlayer.engagedPlayer := self.fpsPlayer;
         end
     
     receiveBlow(i:Integer)
         begin
-            WriteLine('Ouch! You took some damage');
+            WriteLine('Ouch! You took some HEFTY damage');
             self.fpsPlayer.health := self.fpsPlayer.health - i;
             if self.fpsPlayer.health <= 0 then
-                self.fpsPlayer.fpsState := self.fpsPlayer.dieState
+                begin
+                WriteLine('...And also died. Sorry!');
+                self.fpsPlayer.fpsState := self.fpsPlayer.dieState;
+                end
             end;
         end
 end
@@ -121,19 +142,23 @@ operations
         begin
         end    
 
-    attackOpponent(e:FpsPlayer)
+    attackOpponent()
         begin
-            e.receiveBlow(self.attackDmg);
+            if self.fpsState <> self.dieState then
+                begin
+                    self.engagedPlayer.receiveBlow(self.attackDmg);
+                    if self.engagedPlayer.health <= 0 then
+                        begin
+                        WriteLine('Good Job! You slayed your opponent');
+                        self.engagedPlayer := self;
+                        end
+                    end;
+                end
+            else
+                WriteLine('Sorry, you have died!')
+            end;
         end
-        pre isEngaged: self.engagedPlayer = e
         pre noSelfHarm: self.engagedPlayer <> self
-
-    flee()
-        begin
-            self.engagedPlayer.lostOpponent();
-            self.engagedPlayer := self;
-            WriteLine('Success! you have fleed your opponent. Coward.');
-        end
 
     seeOpponent(e:FpsPlayer)
         begin
@@ -149,6 +174,30 @@ operations
         begin
             self.fpsState.receiveBlow(i);
         end
+
+statemachines
+    psm StatePattern
+    states
+        startUp:initial
+        neutral [fpsState = neutralState]
+        attack  [fpsState = attackState]
+        panic   [fpsState = panicState]
+        die     [fpsState = dieState]
+    transitions
+        startUp -> neutral {create}
+        neutral -> attack { [e.oclIsTypeOf(Defeatable) and fpsState = neutralState] seeOpponent() }
+        neutral -> attack { [e.oclIsTypeOf(HumanPlayer) and self.oclIsTypeOf(Undefeatable)] seeOpponent() }
+        neutral -> panic { [e.oclIsTypeOf(Undefeatable) and fpsState = neutralState] seeOpponent() }
+        neutral -> panic { [e.oclIsTypeOf(HumanPlayer) and self.oclIsTypeOf(Defeatable)] seeOpponent() }
+        attack -> neutral { [fpsState = attackState] lostOpponent() }
+        attack -> neutral { [fpsState = attackState and self.engagedPlayer.oclIsTypeOf(Defeatable)] attackOpponent() }
+        attack -> die { [fpsState = attackState and health <= i] receiveBlow() }
+        
+        attack -> attack { [fpsState = attackState and health > i] receiveBlow() }
+        
+        panic -> neutral { [fpsState = panicState] lostOpponent() }
+        panic -> die { [fpsState = panicState and health <= i] receiveBlow() }
+    end
 end
 
 class HumanPlayer < FpsPlayer
@@ -159,9 +208,13 @@ operations
             self.attackDmg := 25;
             self.engagedPlayer := self;
             self.attackState := new Attack;
+            self.attackState.initInstance(self);
             self.neutralState := new Neutral;
+            self.neutralState.initInstance(self);
             self.panicState := new Panic;
+            self.panicState.initInstance(self);
             self.dieState := new Die;
+            self.dieState.initInstance(self);
             self.fpsState := self.neutralState; -- Start in a neutral state
         end
 end
@@ -174,10 +227,14 @@ operations
             self.attackDmg := 10;
             self.engagedPlayer := self;
             self.attackState := new Attack;
+            self.attackState.initInstance(self);
             self.neutralState := new Neutral;
+            self.neutralState.initInstance(self);
             self.panicState := new Panic;
+            self.panicState.initInstance(self);
             self.dieState := new Die;
-            self.fpsState := self.neutralState; -- Start in a neutral state
+            self.dieState.initInstance(self);
+            self.fpsState := self.neutralState;
         end
 end
 
@@ -189,15 +246,15 @@ operations
             self.attackDmg := 50;
             self.engagedPlayer := self;
             self.attackState := new Attack;
+            self.attackState.initInstance(self);
             self.neutralState := new Neutral;
+            self.neutralState.initInstance(self);
             self.panicState := new Panic;
+            self.panicState.initInstance(self);
             self.dieState := new Die;
+            self.dieState.initInstance(self);
             self.fpsState := self.neutralState; -- Start in a neutral state
         end
 end
 
---associations
-association FPSState between
- FpsState[1]
- FpsPlayer[1]
-end
+

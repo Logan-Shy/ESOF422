@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="windows-1252"?>
+<diagram_Layout version="13">
+    <diagramOptions>
+        <autolayout>false</autolayout>
+        <antialiasing>false</antialiasing>
+        <showassocnames>false</showassocnames>
+        <showattributes>true</showattributes>
+        <showmultiplicities>false</showmultiplicities>
+        <showoperations>false</showoperations>
+        <showrolenames>true</showrolenames>
+        <showgrid>false</showgrid>
+        <ShowStates>false</ShowStates>
+    </diagramOptions>
+    <node id="Neutral3" sizeCalculated="true" type="Object">
+        <name>Neutral3</name>
+        <strategy type="org.tzi.use.gui.views.diagrams.elements.positioning.StrategyFixed">
+            <x>718.4663053828049</x>
+            <y>178.4756584546098</y>
+        </strategy>
+        <hidden>false</hidden>
+    </node>
+    <node id="Neutral2" sizeCalculated="true" type="Object">
+        <name>Neutral2</name>
+        <strategy type="org.tzi.use.gui.views.diagrams.elements.positioning.StrategyFixed">
+            <x>727.8591868112039</x>
+            <y>477.1583439444448</y>
+        </strategy>
+        <hidden>false</hidden>
+    </node>
+    <node id="Neutral1" sizeCalculated="true" type="Object">
+        <name>Neutral1</name>
+        <strategy type="org.tzi.use.gui.views.diagrams.elements.positioning.StrategyFixed">
+            <x>367.7170151097762</x>
+            <y>473.68183950487514</y>
+        </strategy>
+        <hidden>false</hidden>
+    </node>
+    <node id="h1" sizeCalculated="true" type="Object">
+        <name>h1</name>
+        <strategy type="org.tzi.use.gui.views.diagrams.elements.positioning.StrategyFixed">
+            <x>408.2255730847666</x>
+            <y>296.8861452620458</y>
+        </strategy>
+        <hidden>false</hidden>
+    </node>
+    <node id="d1" sizeCalculated="true" type="Object">
+        <name>d1</name>
+        <strategy type="org.tzi.use.gui.views.diagrams.elements.positioning.StrategyFixed">
+            <x>765.7050644942633</x>
+            <y>309.6010447254079</y>
+        </strategy>
+        <hidden>false</hidden>
+    </node>
+    <node id="Die1" sizeCalculated="true" type="Object">
+        <name>Die1</name>
+        <strategy type="org.tzi.use.gui.views.diagrams.elements.positioning.StrategyFixed">
+            <x>482.31074803810475</x>
+            <y>538.712040759866</y>
+        </strategy>
+        <hidden>false</hidden>
+    </node>
+    <node id="Die2" sizeCalculated="true" type="Object">
+        <name>Die2</name>
+        <strategy type="org.tzi.use.gui.views.diagrams.elements.positioning.StrategyFixed">
+            <x>837.6695508092791</x>
+            <y>539.0595760008008</y>
+        </strategy>
+        <hidden>false</hidden>
+    </node>
+    <node id="Panic3" sizeCalculated="true" type="Object">
+        <name>Panic3</name>
+        <strategy type="org.tzi.use.gui.views.diagrams.elements.positioning.StrategyFixed">
+            <x>725.5748265629054</x>
+            <y>223.94137073093856</y>
+        </strategy>
+        <hidden>false</hidden>
+    </node>
+    <node id="Die3" sizeCalculated="true" type="Object">
+        <name>Die3</name>
+        <strategy type="org.tzi.use.gui.views.diagrams.elements.positioning.StrategyFixed">
+            <x>881.251849035014</x>
+            <y>223.62545520366496</y>
+        </strategy>
+        <hidden>false</hidden>
+    </node>
+    <node id="Panic1" sizeCalculated="true" type="Object">
+        <name>Panic1</name>
+        <strategy type="org.tzi.use.gui.views.diagrams.elements.positioning.StrategyFixed">
+            <x>377.2736375175193</x>
+            <y>534.9985301102536</y>
+        </strategy>
+        <hidden>false</hidden>
+    </node>
+    <node id="Panic2" sizeCalculated="true" type="Object">
+        <name>Panic2</name>
+        <strategy type="org.tzi.use.gui.views.diagrams.elements.positioning.StrategyFixed">
+            <x>737.6174896793391</x>
+            <y>541.4062993989226</y>
+        </strategy>
+        <hidden>false</hidden>
+    </node>
+    <node id="u1" sizeCalculated="true" type="Object">
+        <name>u1</name>
+        <strategy type="org.tzi.use.gui.views.diagrams.elements.positioning.StrategyFixed">
+            <x>780.0457913071439</x>
+            <y>24.592983281746342</y>
+        </strategy>
+        <hidden>false</hidden>
+    </node>
+    <node id="Attack3" sizeCalculated="true" type="Object">
+        <name>Attack3</name>
+        <strategy type="org.tzi.use.gui.views.diagrams.elements.positioning.StrategyFixed">
+            <x>865.338416748376</x>
+            <y>178.8716118053254</y>
+        </strategy>
+        <hidden>false</hidden>
+    </node>
+    <node id="Attack2" sizeCalculated="true" type="Object">
+        <name>Attack2</name>
+        <strategy type="org.tzi.use.gui.views.diagrams.elements.positioning.StrategyFixed">
+            <x>832.7406370522542</x>
+            <y>478.217795387093</y>
+        </strategy>
+        <hidden>false</hidden>
+    </node>
+    <node id="Attack1" sizeCalculated="true" type="Object">
+        <name>Attack1</name>
+        <strategy type="org.tzi.use.gui.views.diagrams.elements.positioning.StrategyFixed">
+            <x>479.96353901433326</x>
+            <y>471.4556414366793</y>
+        </strategy>
+        <hidden>false</hidden>
+    </node>
+</diagram_Layout>
