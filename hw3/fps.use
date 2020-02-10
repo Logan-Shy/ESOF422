@@ -33,6 +33,9 @@ operations
         begin
             WriteLine('Darn! Your opponent ran away!');
             self.fpsPlayer.fpsState := self.fpsPlayer.neutralState;
+            if self.fpsPlayer.engagedPlayer.engagedPlayer = self.fpsPlayer then
+                self.fpsPlayer.engagedPlayer.lostOpponent()
+            end;
             self.fpsPlayer.engagedPlayer := self.fpsPlayer;
 
         end
@@ -56,8 +59,19 @@ operations
         begin
             if e.oclIsTypeOf(Defeatable) then
                 self.fpsPlayer.fpsState := self.fpsPlayer.attackState;
-            else
+            end;
+            if e.oclIsTypeOf(Undefeatable) then
                 self.fpsPlayer.fpsState := self.fpsPlayer.panicState;
+            end;
+            if e.oclIsTypeOf(HumanPlayer) then
+                begin
+                    if self.fpsPlayer.oclIsTypeOf(Undefeatable) then
+                        self.fpsPlayer.fpsState := self.fpsPlayer.attackState
+                    end;
+                    if self.fpsPlayer.oclIsTypeOf(Defeatable) then
+                        self.fpsPlayer.fpsState := self.fpsPlayer.panicState;
+                    end;
+                end
             end;
 
             self.fpsPlayer.engagedPlayer := e;
@@ -151,6 +165,7 @@ operations
                         begin
                         WriteLine('Good Job! You slayed your opponent');
                         self.engagedPlayer := self;
+                        self.fpsState := self.neutralState;
                         end
                     end;
                 end
@@ -190,12 +205,15 @@ statemachines
         neutral -> panic { [e.oclIsTypeOf(Undefeatable) and fpsState = neutralState] seeOpponent() }
         neutral -> panic { [e.oclIsTypeOf(HumanPlayer) and self.oclIsTypeOf(Defeatable)] seeOpponent() }
         attack -> neutral { [fpsState = attackState] lostOpponent() }
-        attack -> neutral { [fpsState = attackState and self.engagedPlayer.oclIsTypeOf(Defeatable)] attackOpponent() }
+        attack -> neutral { [fpsState = attackState and self.engagedPlayer.health <= self.attackDmg] attackOpponent() }
         attack -> die { [fpsState = attackState and health <= i] receiveBlow() }
         
         attack -> attack { [fpsState = attackState and health > i] receiveBlow() }
+        attack -> attack { [fpsState = attackState and self.engagedPlayer.health > self.attackDmg] attackOpponent() }
         
         panic -> neutral { [fpsState = panicState] lostOpponent() }
+        panic -> panic { [fpsState = panicState and self.engagedPlayer.health > self.attackDmg] attackOpponent() }
+        panic -> panic { [fpsState = panicState and health > i] receiveBlow() }
         panic -> die { [fpsState = panicState and health <= i] receiveBlow() }
     end
 end
